@@ -1,3 +1,16 @@
+const { initializeApp, applicationDefault, cert } = require('firebase-admin/app')
+const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore')
+
+const certificate = require('../certificate.json')
+
+initializeApp({
+    credential: cert(certificate)
+})
+
+const db = getFirestore()
+
+// API Stuff
+
 const express = require('express')
 
 const app = express()
@@ -5,7 +18,12 @@ const app = express()
 app.use(express.json()) //telling the API to accept JSON files
 
 app.get('/', (request, response) => {
-    response.send('Hello World!')
+    const userCollection = db.collection('users')
+    userCollection.get()
+    .then(snapshot => {
+        response.send(snapshot.docs)
+    })
+    // response.send('Hello World!')
 })
 
 app.post('/users', (request, response) => {
