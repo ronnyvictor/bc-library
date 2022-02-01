@@ -23,8 +23,11 @@ app.get('/', (request, response) => {
     .then(snapshot => {
         response.send(snapshot.docs)
     })
-    // response.send('Hello World!')
 })
+
+// app.get('/', (request, response) => {
+//     response.send('Hello World!')
+// })
 
 app.post('/users', (request, response) => {
     const {name, age, email} = request.body
